@@ -8,8 +8,8 @@ Gem::Specification.new do |spec|
   spec.version       = Kodi::VERSION
   spec.authors       = ["Howard Wilson"]
   spec.email         = ["howard@watsonbox.net"]
-  spec.summary       = %q{TODO: Write a short summary. Required.}
-  spec.description   = %q{TODO: Write a longer description. Optional.}
+  spec.summary       = %q{Ruby wrapper for Kodi JSON-RPC API}
+  spec.description   = %q{Ruby wrapper for Kodi JSON-RPC API. See http://kodi.wiki/view/JSON-RPC_API/v6.}
   spec.homepage      = ""
   spec.license       = "MIT"
 
