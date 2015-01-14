@@ -1,6 +1,7 @@
 # Kodi
 
-TODO: Write a gem description
+Ruby wrapper for [Kodi JSON-RPC API](http://kodi.wiki/view/JSON-RPC_API/v6).
+
 
 ## Installation
 
