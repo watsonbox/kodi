@@ -1,5 +1,7 @@
 # Kodi
 
+[![Build Status](http://img.shields.io/travis/watsonbox/kodi.svg?style=flat)](https://travis-ci.org/watsonbox/kodi)
+
 Ruby wrapper for [Kodi JSON-RPC API](http://kodi.wiki/view/JSON-RPC_API/v6).
 
 
