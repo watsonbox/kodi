@@ -10,7 +10,7 @@ module Kodi
 
     def method_missing(method_name, *arguments, &block)
       if method = find_method(method_name)
-        RPC.new(client.uri).dispatch(name + '.' + method)
+        RPC.new(client.uri).dispatch(name + '.' + method, *arguments)
       else
         super
       end

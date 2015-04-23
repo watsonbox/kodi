@@ -19,7 +19,8 @@ module Kodi
 
     def build_namespaces
       {
-        'Input' => Namespace.new(self, 'Input', 'Up')
+        'Input' => Namespace.new(self, 'Input', 'Up', 'Down', 'Left', 'Right', 'Select', 'Back'),
+        'Player' => Namespace.new(self, 'Player', 'GetActivePlayers', 'PlayPause')
       }
     end
   end
