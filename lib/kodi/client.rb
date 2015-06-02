@@ -4,7 +4,7 @@ module Kodi
 
     def initialize(uri)
       @uri = URI.parse(uri)
-      @namespaces = build_namespaces
+      @namespaces = Namespace.generate_namespaces self
     end
 
     def method_missing(method_name, *arguments, &block)
@@ -15,13 +15,6 @@ module Kodi
 
     def find_namespace(name)
       namespaces[name.to_s.camelize]
-    end
-
-    def build_namespaces
-      {
-        'Input' => Namespace.new(self, 'Input', 'Up', 'Down', 'Left', 'Right', 'Select', 'Back'),
-        'Player' => Namespace.new(self, 'Player', 'GetActivePlayers', 'PlayPause')
-      }
     end
   end
 end
