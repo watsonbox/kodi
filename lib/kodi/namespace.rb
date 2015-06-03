@@ -1,24 +1,24 @@
 module Kodi
   class Namespace
-    attr_reader :client, :name
+    attr_reader :uri, :name
 
-    def initialize(client, name, *methods)
-      @client = client
+    def initialize(uri, name, *methods)
+      @uri = uri
       @name = name
       @methods = methods
     end
 
     def method_missing(method_name, *arguments, &block)
       if method = find_method(method_name)
-        RPC.new(client.uri).dispatch(name + '.' + method, *arguments)
+        RPC.new(uri).dispatch(name + '.' + method, *arguments)
       else
         super
       end
     end
 
-    def self.generate_namespaces(client)
+    def self.generate_namespaces(uri)
       namespaces = Hash.new
-      api = RPC.new(client.uri).dispatch('JSONRPC.Introspect')
+      api = RPC.new(uri).dispatch('JSONRPC.Introspect')
       api['methods'].keys.each do |method|
         parts = method.split('.')
         if namespaces.has_key?(parts[0])
@@ -27,7 +27,7 @@ module Kodi
           namespaces[parts[0]] = [parts[1]]
         end
       end
-      namespaces.each { |name, methods| namespaces[name] = self.new(client, name, *methods) }
+      namespaces.each { |name, methods| namespaces[name] = self.new(uri, name, *methods) }
     end
 
     private

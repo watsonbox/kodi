@@ -4,7 +4,7 @@ module Kodi
 
     def initialize(uri)
       @uri = URI.parse(uri)
-      @namespaces = Namespace.generate_namespaces self
+      @namespaces = Namespace.generate_namespaces @uri
     end
 
     def method_missing(method_name, *arguments, &block)
