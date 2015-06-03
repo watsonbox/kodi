@@ -2,9 +2,9 @@ module Kodi
   class Client
     attr_reader :uri, :namespaces
 
-    def initialize(uri)
+    def initialize(uri, method_groups = nil)
       @uri = URI.parse(uri)
-      @namespaces = Namespace.generate_namespaces @uri
+      @namespaces = Namespace.generate_namespaces @uri, method_groups
     end
 
     def method_missing(method_name, *arguments, &block)
