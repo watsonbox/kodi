@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Kodi::Client do
   let(:uri) { "http://xbmc:pass@localhost:8080/jsonrpc" }
-  let(:client) { Kodi::Client.new(uri) }
+  let(:client) { Kodi::Client.new(uri, {'Input' => ['Up'], 'Player' => ['PlayPause']}) }
   subject { client }
 
   it { is_expected.to be_a Kodi::Client }
@@ -11,11 +11,11 @@ describe Kodi::Client do
   describe 'input.up' do
     before do
       stub_request(:post, uri).with(
-        :body => "{\"method\":\"Input.Up\",\"params\":{},\"jsonrpc\":\"2.0\",\"id\":\"1\"}",
+        :body => '{"method":"Input.Up","params":{},"jsonrpc":"2.0","id":"1"}',
         :headers => { 'Content-Type'=>'application/json' }
       ).to_return(
         :status => 200,
-        :body => "{\"id\":\"1\",\"jsonrpc\":\"2.0\",\"result\":\"OK\"}",
+        :body => '{"id":"1","jsonrpc":"2.0","result":"OK"}',
         :headers => {}
       )
     end
@@ -29,11 +29,11 @@ describe Kodi::Client do
   describe 'player.play_pause' do
     before do
       stub_request(:post, uri).with(
-        :body => "{\"method\":\"Player.PlayPause\",\"params\":{\"playerid\":1},\"jsonrpc\":\"2.0\",\"id\":\"1\"}",
+        :body => '{"method":"Player.PlayPause","params":{"playerid":1},"jsonrpc":"2.0","id":"1"}',
         :headers => { 'Content-Type'=>'application/json' }
       ).to_return(
         :status => 200,
-        :body => "{\"id\":\"1\",\"jsonrpc\":\"2.0\",\"result\":\"OK\"}",
+        :body => '{"id":"1","jsonrpc":"2.0","result":"OK"}',
         :headers => {}
       )
     end
