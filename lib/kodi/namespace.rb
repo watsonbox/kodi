@@ -1,16 +1,16 @@
 module Kodi
   class Namespace
-    attr_reader :client, :name
+    attr_reader :uri, :name
 
-    def initialize(client, name, *methods)
-      @client = client
+    def initialize(uri, name, *methods)
+      @uri = uri
       @name = name
       @methods = methods
     end
 
     def method_missing(method_name, *arguments, &block)
       if method = find_method(method_name)
-        RPC.new(client.uri).dispatch(name + '.' + method, *arguments)
+        RPC.new(uri).dispatch(name + '.' + method, *arguments)
       else
         super
       end

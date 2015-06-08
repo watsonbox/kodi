@@ -2,9 +2,9 @@ module Kodi
   class Client
     attr_reader :uri, :namespaces
 
-    def initialize(uri)
+    def initialize(uri, method_groups = nil)
       @uri = URI.parse(uri)
-      @namespaces = build_namespaces
+      @namespaces = NamespaceBuilder.new(self.uri).build_namespaces(method_groups)
     end
 
     def method_missing(method_name, *arguments, &block)
@@ -15,13 +15,6 @@ module Kodi
 
     def find_namespace(name)
       namespaces[name.to_s.camelize]
-    end
-
-    def build_namespaces
-      {
-        'Input' => Namespace.new(self, 'Input', 'Up', 'Down', 'Left', 'Right', 'Select', 'Back'),
-        'Player' => Namespace.new(self, 'Player', 'GetActivePlayers', 'PlayPause')
-      }
     end
   end
 end
