@@ -42,4 +42,41 @@ describe Kodi::Client do
       expect(client.player.play_pause playerid: 1).to eq "OK"
     end
   end
+
+  context 'automatic namespace population' do
+    let(:client) { Kodi::Client.new(uri) }
+
+    before do
+      stub_request(:post, uri).with(
+        :body => '{"method":"JSONRPC.Introspect","params":{},"jsonrpc":"2.0","id":"1"}',
+        :headers => { 'Content-Type'=>'application/json' }
+      ).to_return(
+        :status => 200,
+        :body => File.read('spec/assets/JSONRPC.Introspect.json'),
+        :headers => {}
+      )
+    end
+
+    it 'populates namespaces' do
+      expect(client.namespaces.keys).to eq([
+        "Addons",
+        "Application",
+        "AudioLibrary",
+        "Favourites",
+        "Files",
+        "GUI",
+        "Input",
+        "JSONRPC",
+        "PVR",
+        "Player",
+        "Playlist",
+        "Profiles",
+        "Settings",
+        "System",
+        "Textures",
+        "VideoLibrary",
+        "XBMC"
+      ])
+    end
+  end
 end
