@@ -13,7 +13,7 @@ module Kodi
     #                               If left empty, the complete API will be requested from the server. This will cost an
     #                               extra second or two, but ensures that you have all methods available.
     def build_namespaces(method_groups = nil)
-      namespaces = (method_groups || request_methods).map do |name, methods|
+      namespaces = (method_groups || api_method_groups).map do |name, methods|
         Namespace.new(uri, name, *methods)
       end
 
@@ -22,23 +22,18 @@ module Kodi
 
     private
 
-    # Calls the JSONRPC.Introspect method and uses the result to create a hash
-    # containing all methods that are available in the Kodi JSON-RPC API
-    #
-    # Params
-    # +uri+:: The URI of the Kodi JSON-RPC API server
-    def request_methods
-      method_groups = Hash.new
-      api = RPC.new(uri).dispatch('JSONRPC.Introspect')
-      api['methods'].keys.each do |method|
-        parts = method.split('.')
-        if method_groups.has_key?(parts[0])
-          method_groups[parts[0]].append(parts[1])
-        else
-          method_groups[parts[0]] = [parts[1]]
-        end
+    def api_method_groups
+      api_methods.group_by(&:namespace)
+    end
+
+    def api_methods
+      api_introspect['methods'].keys.map do |path|
+        Struct.new(:namespace, :name).new(*path.split('.', 2))
       end
-      method_groups
+    end
+
+    def api_introspect
+      @api_introspect ||= RPC.new(uri).dispatch('JSONRPC.Introspect')
     end
   end
 end
